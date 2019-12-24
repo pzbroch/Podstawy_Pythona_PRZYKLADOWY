@@ -3,7 +3,7 @@
 #----------------------------#
 #  Various HTML Operations   #
 #============================#
-# Ver. 0.2 (2019-12-18)      #
+# Ver. 0.3 (2019-12-24)      #
 # (C) 2019 Przemyslaw Zbroch #
 ##############################
 
@@ -27,7 +27,10 @@
 #                                                                              #
 # Required source files:                                                       #
 #   - pagebase.html from jd_library - a file that contains the html code       #
-#                                     which will be filled with title and body #
+#                   which will be filled with title and body. This file also   #
+#                   includes the use of style.css sheet to be placed           #
+#                   in the main project folder with the following path:        #
+#                   /[project_folder]/static/css/style.css                     #
 #                                                                              #
 ################################################################################
 
@@ -35,6 +38,6 @@
 
 def buildHtmlPage(pageTitle, bodyContent):
     tmpFile = open('jd_library/pagebase.html','rt')
-    pageBase = tmpFile.read(1024)
+    pageBase = tmpFile.read(4096)
     tmpFile.close()
     return pageBase.format(pageTitle, bodyContent)

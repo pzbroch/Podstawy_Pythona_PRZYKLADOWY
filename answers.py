@@ -4,6 +4,8 @@
 ################################################################################
 # Zadanie 4
 
+
+
 def revers_sentence(inStr):
     outStr = ''
     for x in range(len(inStr)-1,-1,-1):
@@ -24,6 +26,8 @@ def revers_sentence(inStr):
 ################################################################################
 # Zadanie 5
 
+
+
 def count_char(inStr,char):
     inStr = inStr.lower()
     char = char.lower()
@@ -43,6 +47,8 @@ def count_char(inStr,char):
 
 ################################################################################
 # Zadanie 6
+
+
 
 def list_filter(int_values,*dividers):
     outList = []
@@ -75,6 +81,8 @@ def list_filter(int_values,*dividers):
 ################################################################################
 # Zadanie 7
 
+
+
 import random
 
 def get_random_elements(inList,randVal = 1):
@@ -89,20 +97,23 @@ def get_random_elements(inList,randVal = 1):
 
 
 
-n = get_random_elements([1,2,6,3,7]) # [2]
-print(n)
-n = get_random_elements([1,2,6,3,7],3) # [6,2,7]
-print(n)
-n = get_random_elements([1,2,6,3,7],16) # Wyjątek!
-print(n)
+# n = get_random_elements([1,2,6,3,7]) # [2]
+# print(n)
+# n = get_random_elements([1,2,6,3,7],3) # [6,2,7]
+# print(n)
+# n = get_random_elements([1,2,6,3,7],16) # Wyjątek!
+# print(n)
 
 
 
 ################################################################################
 # Zadanie 8
 
+
+
 from flask import Flask, request
-from jd_helpers import buildHtmlPage, getLoginForm
+from jd_library import jd_htmlops
+from my_phonebook import pb
 
 
 
@@ -112,33 +123,46 @@ app = Flask(__name__)
 
 @app.route('/pbk', methods=['GET', 'POST'])
 def pbk():
-    form = '''
-        <p><h3>Obliczymy różne potęgi oraz silnię przy użyciu wskazanej liczby.</h3></p><br />
-        <form method="POST">
-            <label>Podaj liczbę:
-                <input type="text" name="n" autofocus>
-            </label>
-            <input type="submit" value="OK" />
-        </form><hr />
-    '''
-    outStr = ''
     if request.method == 'POST':
-        n = request.form['n']
-        if jd_numops.isNumber(n, 'int', 'pos'):
-            n = int(n)
-            n2 = 2 ** n
-            nn = n ** n
-            ns = 1
-            for x in range(1,n+1):
-                ns = x * ns
-            outStr = f'''
-                <ul>
-                    <li>2<sup>{n}</sup> = {n2}</li>
-                    <li>{n}<sup>{n}</sup> = {nn}</li>
-                    <li>{n}! = {ns}</li>
-                </ul>
-            '''
-    outHtml = jd_htmlops.buildHtmlPage('Factorial Powers', form + outStr)
+        nameFilter = request.form['nameFilter']
+        numFilter = request.form['numFilter']
+    else:
+        nameFilter = ''
+        numFilter = ''
+    tabContent = ''
+    for x in pb:
+        if (nameFilter.lower() in x['nickname'].lower()) and (numFilter in x['number']):
+            tabContent += f'''
+                <tr>
+                    <td>{x['nickname']}</td>
+                    <td>{x['number']}</td>
+                </tr>'''
+        if tabContent == '':
+            tabContent = '''
+                <tr>
+                    <td colspan="2">No record!</td>
+                </tr>'''
+    siteContent = f'''
+        <h3>Moja książka telefoniczna:</h3>
+        <form method="POST">
+            <table>
+                <tr>
+                    <th>Nickname</th>
+                    <th>Number</th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="nameFilter" value="{nameFilter}" placeholder="filter">
+                    </td>
+                    <td>
+                        <input type="text" name="numFilter" value="{numFilter}" placeholder="filter">
+                    </td>
+                </tr>
+                {tabContent}
+            </table>
+            <input type="submit" hidden />
+        </form>'''
+    outHtml = jd_htmlops.buildHtmlPage('My Phone Book', siteContent)
     return outHtml
 
 
