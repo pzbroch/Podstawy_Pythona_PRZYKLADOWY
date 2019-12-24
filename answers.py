@@ -136,12 +136,14 @@ def pbk():
                 <tr>
                     <td>{x['nickname']}</td>
                     <td>{x['number']}</td>
-                </tr>'''
+                </tr>
+            '''
     if tabContent == '':
         tabContent = '''
             <tr>
                 <td colspan="2">No record!</td>
-            </tr>'''
+            </tr>
+        '''
     siteContent = f'''
         <h3>Moja książka telefoniczna:</h3>
         <form method="POST">
@@ -161,7 +163,8 @@ def pbk():
                 {tabContent}
             </table>
             <input type="submit" hidden />
-        </form>'''
+        </form>
+    '''
     outHtml = jd_htmlops.buildHtmlPage('My Phone Book', siteContent)
     return outHtml
 
