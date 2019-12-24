@@ -137,11 +137,11 @@ def pbk():
                     <td>{x['nickname']}</td>
                     <td>{x['number']}</td>
                 </tr>'''
-        if tabContent == '':
-            tabContent = '''
-                <tr>
-                    <td colspan="2">No record!</td>
-                </tr>'''
+    if tabContent == '':
+        tabContent = '''
+            <tr>
+                <td colspan="2">No record!</td>
+            </tr>'''
     siteContent = f'''
         <h3>Moja książka telefoniczna:</h3>
         <form method="POST">
